@@ -16,13 +16,13 @@ namespace MyStore
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddTransient<IProductRepository, FakeProductRepository>(); //Таким образом мы сообщаем что когда компоненту вроде контролера понадобится реализация интерфейса она должна получить фейковый объект
+            //services.AddTransient<IProductRepository, FakeProductRepository>(); //Таким образом мы сообщаем что когда компоненту вроде контролера понадобится реализация интерфейса она должна получить фейковый объект
             services.AddMvc(); //Расширяющий метод. Настраевает разделяемые объекты, применяемые в приложение MVC
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         // Используется для настройки средств, которые получают и обрабатывают HTTP запросы.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env) 
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env) //Этот метод применяется для настроики конвеера запросов. ?состоит из классов (Промежуточное ПО)?
         {
             //Расширяющие методы. Которые настраивают средство обработки HTTP запросов.
             //Этот метод отображает детили исключения, которое произошло в приложение.
@@ -34,7 +34,9 @@ namespace MyStore
             //Включает инфраструктуру ASP.NET Core MVC
             app.UseMvc(routes =>
             {
-
+                routes.MapRoute( //MVC - это промежуточное ПО. Этот метод настраивает. Один из параметров это схема для сопаставления URL.
+                    name: "default",
+                    template: "{controller=Product}/{action=List}/{id?}");//Где после равно стандартное значение
             });
         }
     }
