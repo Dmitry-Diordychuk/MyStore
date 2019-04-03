@@ -7,15 +7,26 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using MyStore.Models;
+using Microsoft.Extensions.Configuration;
+using Microsoft.EntityFrameworkCore;
 
 namespace MyStore
 {
     public class Startup
     {
+        public IConfiguration Configuration { get; set; }
+        //Конструктор получает данные из appsettings.json, которые представленны по средствам объекта который реализует интерфейс IConfiguration.
+        public Startup(IConfiguration configuration) => Configuration = configuration;
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            //AddDbContext расширенный метод настраивает сервисы предоставляемые EFC для класса ApplicationDbContext.cs. Аргументом является лямбда выражение которая принимает
+            //объект опции которое конфигурирует базу данных для нашего класса Контекста. В нашем случае  используется метод UseSqlServer и строка подключения получиная из Configuration свойства
+            services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration["Data:MyStoreProducts:ConnectionString"]));
+            //Замешаем фейк настоящим репозиторием. Все компоненты которые используют IProductRepository (которые являются Product контроллерами) будут получить объект EFProductRepository
+            //при создание. Что даст им доступ к базе данных. То есть фейковые данные будут невидимо замещатся настоящими данными из ДБ без нужды изменять ProductController
+            services.AddTransient<IProductRepository, EFProductRepository>();
             //services.AddTransient<IProductRepository, FakeProductRepository>(); //Таким образом мы сообщаем что когда компоненту вроде контролера понадобится реализация интерфейса она должна получить фейковый объект
             services.AddMvc(); //Расширяющий метод. Настраевает разделяемые объекты, применяемые в приложение MVC
         }
@@ -38,6 +49,7 @@ namespace MyStore
                     name: "default",
                     template: "{controller=Product}/{action=List}/{id?}");//Где после равно стандартное значение
             });
+            SeedData.EnsurePopulated(app);
         }
     }
 }
