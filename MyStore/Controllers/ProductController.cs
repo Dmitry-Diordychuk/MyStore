@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MyStore.Models;
 using System.Linq;
+using MyStore.Models.ViewModels;
 
 namespace MyStore.Controllers
 {
@@ -14,7 +15,20 @@ namespace MyStore.Controllers
             repository = repo;
         }
         //Выводим по четыре продукта на страницу
-        public ViewResult List(int productPage = 1) => View(repository.Products.OrderBy(p => p.ProductID).Skip((productPage - 1) * PageSize).Take(PageSize));
+        public ViewResult List(int productPage = 1)
+            => View(new ProductsListViewModel
+            {
+                Products = repository.Products
+                    .OrderBy(p => p.ProductID)
+                    .Skip((productPage - 1) * PageSize)
+                    .Take(PageSize),
+                PagingInfo = new PagingInfo
+                {
+                    CurrentPage = productPage,
+                    ItemsPerPage = PageSize,
+                    TotalItems = repository.Products.Count()
+                }
+            });
         //View() - везуализирует стандартное предатавление для метода действия
     }
 }

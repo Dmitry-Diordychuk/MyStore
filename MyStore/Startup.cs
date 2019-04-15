@@ -45,6 +45,11 @@ namespace MyStore
             //Включает инфраструктуру ASP.NET Core MVC
             app.UseMvc(routes =>
             {
+                routes.MapRoute(
+                    name: "pagination",
+                    template: "Products/Page{productPage}",
+                    defaults: new {Controller="Product", action="list"}
+                    );
                 routes.MapRoute( //MVC - это промежуточное ПО. Этот метод настраивает. Один из параметров это схема для сопаставления URL.
                     name: "default",
                     template: "{controller=Product}/{action=List}/{id?}");//Где после равно стандартное значение

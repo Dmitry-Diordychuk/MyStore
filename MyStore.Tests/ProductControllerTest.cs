@@ -7,6 +7,8 @@ using MyStore.Controllers;
 using MyStore.Models;
 using Xunit;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
+using MyStore.Models.ViewModels;
+
 namespace MyStore.Tests
 {
     public class ProductControllerTest
@@ -29,10 +31,10 @@ namespace MyStore.Tests
             controller.PageSize = 3;
 
             //Act
-            IEnumerable<Product> result = controller.List(2).ViewData.Model as IEnumerable<Product>;//controller.List(2);//List(2).ViewData.Model as IEnumerable<Product>;
+            ProductsListViewModel result = controller.List(2).ViewData.Model as ProductsListViewModel;
 
             //Assert
-            Product[] prodArray = result.ToArray();
+            Product[] prodArray = result.Products.ToArray();
             Assert.True(prodArray.Length == 2);
             Assert.Equal("P4", prodArray[0].Name);
             Assert.Equal("P5", prodArray[1].Name);
