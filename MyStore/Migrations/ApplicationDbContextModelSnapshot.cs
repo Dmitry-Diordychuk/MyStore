@@ -26,9 +26,7 @@ namespace MyStore.Migrations
 
                     b.Property<string>("Artist");
 
-                    b.Property<string>("Category");
-
-                    b.Property<string>("Description");
+                    b.Property<string>("ImageSourceFileName");
 
                     b.Property<string>("Name");
 

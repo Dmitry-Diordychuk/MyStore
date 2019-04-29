@@ -28,7 +28,11 @@ namespace MyStore
             //при создание. Что даст им доступ к базе данных. То есть фейковые данные будут невидимо замещатся настоящими данными из ДБ без нужды изменять ProductController
             services.AddTransient<IProductRepository, EFProductRepository>();
             //services.AddTransient<IProductRepository, FakeProductRepository>(); //Таким образом мы сообщаем что когда компоненту вроде контролера понадобится реализация интерфейса она должна получить фейковый объект
+
+            services.AddMemoryCache();
+            services.AddSession();
             services.AddMvc(); //Расширяющий метод. Настраевает разделяемые объекты, применяемые в приложение MVC
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -42,12 +46,13 @@ namespace MyStore
             app.UseStatusCodePages();
             //Включает поддержку для обслуживания статического содержимого из папки wwwroot
             app.UseStaticFiles();
+            app.UseSession();
             //Включает инфраструктуру ASP.NET Core MVC
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
                     name: "pagination",
-                    template: "Products/Page{productPage}",
+                    template: "/Page{productPage}",
                     defaults: new {Controller="Product", action="list"}
                     );
                 routes.MapRoute( //MVC - это промежуточное ПО. Этот метод настраивает. Один из параметров это схема для сопаставления URL.

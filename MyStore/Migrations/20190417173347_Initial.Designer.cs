@@ -9,7 +9,7 @@ using MyStore.Models;
 namespace MyStore.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20190327175956_Initial")]
+    [Migration("20190417173347_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -28,9 +28,7 @@ namespace MyStore.Migrations
 
                     b.Property<string>("Artist");
 
-                    b.Property<string>("Category");
-
-                    b.Property<string>("Description");
+                    b.Property<string>("ImageSourceFileName");
 
                     b.Property<string>("Name");
 

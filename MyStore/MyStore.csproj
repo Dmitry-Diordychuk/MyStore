@@ -5,15 +5,24 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Folder Include="Migrations\" />
     <Folder Include="Views\Home\" />
-    <Folder Include="wwwroot\" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.1.2" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.9" />
     <!--Элемент DotNetCliToolReference - предназначен для добавления существующих пакетов, которые нельзя установить с помощью NuGet-->
     <DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="2.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\img\Bohemian Rhapsody.jpg" />
+    <None Include="wwwroot\img\L.A. Woman.jpg" />
+    <None Include="wwwroot\img\Live at the Paramount.jpg" />
+    <None Include="wwwroot\img\The Dark Side of the Moon.jpg" />
+    <None Include="wwwroot\img\The Doors.jpg" />
   </ItemGroup>
 
 </Project>
