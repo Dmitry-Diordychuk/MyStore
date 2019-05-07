@@ -29,6 +29,13 @@ namespace MyStore
             services.AddTransient<IProductRepository, EFProductRepository>();
             //services.AddTransient<IProductRepository, FakeProductRepository>(); //Таким образом мы сообщаем что когда компоненту вроде контролера понадобится реализация интерфейса она должна получить фейковый объект
 
+            // Метод AddScoped() в ответ на запрос будет использоваться один и тотже объект.
+            // Будет созданы объекты SessionCart который сериализуют сами себя как данные сеанса, когда они модифицируются
+            services.AddScoped<Cart>(sp => SessionCart.GetCart(sp));
+            // Эта служба указывает что всегда должен применятся один и тот же объект. 
+            // Указания MVC что когда нужен этот интерфейс использовать HttpContextAccessor
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
             services.AddMemoryCache();
             services.AddSession();
             services.AddMvc(); //Расширяющий метод. Настраевает разделяемые объекты, применяемые в приложение MVC

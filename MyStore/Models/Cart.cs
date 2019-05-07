@@ -8,7 +8,7 @@ namespace MyStore.Models
 {
     public class Cart
     {
-        private List<CartLine> lineCollection = new List<CartLine>();
+        protected List<CartLine> lineCollection = new List<CartLine>();
         public virtual void AddItem(Product product, int quantity)
         {
             CartLine line = lineCollection.Where(p => p.Product.ProductID == product.ProductID).FirstOrDefault();
@@ -30,6 +30,7 @@ namespace MyStore.Models
         public virtual void Clear() => lineCollection.Clear();
         public virtual IEnumerable<CartLine> Lines => lineCollection;
     }
+
 
     public class CartLine
     {
